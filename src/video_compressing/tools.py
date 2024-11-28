@@ -27,7 +27,7 @@ def _get_params_for_compression(
             "acodec":'aac',  # Specify AAC codec for audio
             "vcodec":'libx264',  # Specify H.264 codec for video
             "preset":'veryslow',  # Compression preset
-            "crf":int(100 / reduction_factor) # Quality parameter for H.264
+            "crf":int(23 / reduction_factor) # Quality parameter for H.264
         }
     elif video_format == 'mp4':
         video_bitrate = get_video_bitrate(input_file)
@@ -39,7 +39,7 @@ def _get_params_for_compression(
             "video_bitrate": f'{int(video_bitrate * reduction_factor ** 2)}k',
             "audio_bitrate": f'{int(audio_bitrate * reduction_factor ** 2)}k',
             "preset": 'veryslow',  # Compression preset
-            "crf": int(100 / reduction_factor) # Quality parameter for H.264
+            "crf": int(23 / reduction_factor) # Quality parameter for H.264
         }
     else:
         raise ValueError(f"Video format {video_format} is not supported")
