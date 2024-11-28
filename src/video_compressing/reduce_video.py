@@ -34,12 +34,15 @@ def main():
     # Parse the arguments
     args = parser.parse_args()
 
-    # Call the function with parsed arguments
-    reduce_and_merge_videos(
+   # Call the function with parsed arguments
+    output_path = reduce_and_merge_videos(
         input_files=args.input_files,
         reduction_factor=args.reduction_factor,
         output_file=args.output_file
     )
+
+    # Output message
+    print(f"Output video has been generated at: {output_path}")
 
 if __name__ == "__main__":
     main()

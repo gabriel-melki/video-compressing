@@ -92,17 +92,17 @@ def merge_videos_to_single_mp4(
     # Command to run FFmpeg for merging files
     command = [
         'ffmpeg',
-        '-f', 'concat',        # Use concat demuxer
-        '-safe', '0',          # Allow unsafe file paths
-        '-i', temp_file,       # Input list file
-        '-c', 'copy',          # Copy codec (no re-encoding)
-        '-y', validated_output_file
+        '-f', 'concat',              # Use concat demuxer
+        '-safe', '0',                # Allow unsafe file paths
+        '-i', temp_file,             # Input list file
+        '-c', 'copy',                # Copy codec (no re-encoding)
+        '-y', validated_output_file  # Override the outputfile
     ]
 
     try:
         # Run the FFmpeg command
-        subprocess.run(command, check=True)
-        print(f"Merged files saved to {output_file}")
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        print(f"Merged files saved to {validated_output_file}")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred during merging: {e}")
     finally:
