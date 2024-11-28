@@ -44,7 +44,7 @@ Command-Line Tool
 You can run the VideoCompressing tool directly from the terminal.
 
 ```bash
-python -m src.video_compressing.tools input1.mp4 input2.mp4 -r 0.5 -o output.mp4
+python -m src.video_compressing.reduce_video input1.mp4 input2.mp4 -r 0.5 -o output.mp4
 ```
 Parameters:
  - input_files: List of input video files (required)
@@ -57,12 +57,12 @@ Parameters:
 Reduce and merge video1.mp4 and video2.mp4 by 50% into output.mp4:
 
 ```bash
-python -m src.video_compressing.tools video1.mp4 video2.mp4 -r 0.5 -o output.mp4
+python -m src.video_compressing.reduce_video video1.mp4 video2.mp4 -r 0.5 -o output.mp4
 ```
 
 Without an output file:
 ```bash
-python -m src.video_compressing.tools video1.mp4 video2.mp4 -r 0.5
+python -m src.video_compressing.reduce_video video1.mp4 video2.mp4 -r 0.5
 ```
 
 Using as a Library
@@ -76,21 +76,4 @@ reduce_and_merge_videos(
     reduction_factor=0.5,
     output_file="output.mp4"
 )
-```
-
-File Structure
-```bash
-VideoCompressing/
-├── src/
-│   └── video_compressing/
-│       ├── __init__.py
-│       └── tools.py  # Contains reduce_and_merge_videos and CLI logic
-├── script/
-├── test/
-├── .venv/
-├── .vscode/
-├── poetry.lock
-├── pyproject.toml  # Defines the library and dependencies
-├── README.md
-└── video_editing_environment.yaml
 ```
