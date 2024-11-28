@@ -1,0 +1,36 @@
+# Byte-compiled files and caches
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+
+# Poetry and pip files
+*.lock
+*.env
+
+# VSCode settings
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Python packaging leftovers
+*.egg-info/
+build/
+dist/
+
+# FFmpeg outputs (optional)
+*.mp4
+*.mov
