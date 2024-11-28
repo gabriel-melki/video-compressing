@@ -7,7 +7,6 @@ __pycache__/
 .venv/
 
 # Poetry and pip files
-*.lock
 *.env
 
 # VSCode settings
