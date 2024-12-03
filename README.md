@@ -1,4 +1,7 @@
 # Video Compressing
+
+[![PyPI version](https://badge.fury.io/py/video-compressing.svg)](https://pypi.org/project/video-compressing/)
+
 A Python library for reducing the size of and merging multiple video files. This package is designed for simplicity and efficiency, leveraging FFmpeg for video compression and manipulation.
 
 ## Features
