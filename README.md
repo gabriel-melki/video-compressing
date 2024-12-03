@@ -1,6 +1,6 @@
 # Video Compressing
 
-[![PyPI version](https://badge.fury.io/py/video-compressing.svg)](https://pypi.org/project/video-compressing/)
+[![PyPI version](https://badge.fury.io/py/video_compressing.svg)](https://pypi.org/project/video_compressing/)
 
 A Python library for reducing the size of and merging multiple video files. This package is designed for simplicity and efficiency, leveraging FFmpeg for video compression and manipulation.
 
@@ -12,8 +12,8 @@ A Python library for reducing the size of and merging multiple video files. This
 ## Installation
 Clone the Repository
 ```bash
-git clone https://github.com/Gabriel-melki/video-compressing.git
-cd video-compressing
+git clone https://github.com/Gabriel-melki/video_compressing.git
+cd video_compressing
 ```
 
 ### Install Dependencies
@@ -72,7 +72,7 @@ Using as a Library
 Import and call the reduce_and_merge_videos function directly in your Python code:
 
 ```python
-from src.video_compressing.tools import reduce_and_merge_videos
+from video_compressing.tools import reduce_and_merge_videos
 
 reduce_and_merge_videos(
     input_files=["video1.mp4", "video2.mp4"],
