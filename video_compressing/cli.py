@@ -1,7 +1,14 @@
+"""
+This module contains the CLI for the video compressor.
+"""
+
 import argparse
-from video_compressing.tools import reduce_and_merge_videos
+from video_compressing.processor import reduce_and_merge_videos
 
 def main():
+    """
+    Main function to run the video compressor.
+    """
     # Create an argument parser
     parser = argparse.ArgumentParser(
         description="Reduce the size of and merge multiple video files."

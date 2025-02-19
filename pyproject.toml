@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "video_compressing"
+name = "video-compressing"
 version = "0.1.4"
 description = "Package to compress multiple large .MOV or .MP4 videos into a single light .mp4 video."
 authors = ["gabriel-melki"]
@@ -7,9 +7,9 @@ readme = "README.md"
 packages = [
     { include = "video_compressing" }
 ]
-homepage = "https://github.com/Gabriel-melki/video_compressing"
-repository = "https://github.com/Gabriel-melki/video_compressing"
-documentation = "https://github.com/Gabriel-melki/video_compressing#readme"
+homepage = "https://github.com/gabriel-melki/video-compressing"
+repository = "https://github.com/gabriel-melki/video-compressing"
+documentation = "https://github.com/gabriel-melki/video-compressing#readme"
 
 [tool.poetry.dependencies]
 python = "^3.12.0"

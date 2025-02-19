@@ -1,6 +1,7 @@
 """
-TODO
+This module contains the logic for compressing and merging videos.
 """
+
 from typing import Union, List, Optional, Dict
 import os
 import uuid
@@ -9,37 +10,35 @@ import logging
 from pathlib import Path
 from tqdm import tqdm
 import ffmpeg
-from video_compressing.helper import get_video_bitrate, get_audio_bitrate
+from video_compressing.utils import get_video_bitrate, get_audio_bitrate
 
 logger = logging.getLogger(__file__)
 
-def _get_params_for_compression(
-        input_file: str,
-        reduction_factor: float
-    ) -> Dict:
+
+def _get_params_for_compression(input_file: str, reduction_factor: float) -> Dict:
     # Get video format
-    video_format = input_file.split('.')[-1]
+    video_format = input_file.split(".")[-1]
 
     # Determine best params given video format
-    if video_format == 'mov':
+    if video_format == "mov":
         ideal_params = {
-            "vf":f'scale=iw*{reduction_factor}:ih*{reduction_factor}',
-            "acodec":'aac',  # Specify AAC codec for audio
-            "vcodec":'libx264',  # Specify H.264 codec for video
-            "preset":'veryslow',  # Compression preset
-            "crf":int(23 / reduction_factor) # Quality parameter for H.264
+            "vf": f"scale=iw*{reduction_factor}:ih*{reduction_factor}",
+            "acodec": "aac",  # Specify AAC codec for audio
+            "vcodec": "libx264",  # Specify H.264 codec for video
+            "preset": "veryslow",  # Compression preset
+            "crf": int(23 / reduction_factor),  # Quality parameter for H.264
         }
-    elif video_format == 'mp4':
+    elif video_format == "mp4":
         video_bitrate = get_video_bitrate(input_file)
         audio_bitrate = get_audio_bitrate(input_file)
         ideal_params = {
-            "vf": f'scale=iw*{reduction_factor}:ih*{reduction_factor}',
-            "acodec": 'aac',  # Specify AAC codec for audio
-            "vcodec": 'libx264',  # Specify H.264 codec for video
-            "video_bitrate": f'{int(video_bitrate * reduction_factor ** 2)}k',
-            "audio_bitrate": f'{int(audio_bitrate * reduction_factor ** 2)}k',
-            "preset": 'veryslow',  # Compression preset
-            "crf": int(23 / reduction_factor) # Quality parameter for H.264
+            "vf": f"scale=iw*{reduction_factor}:ih*{reduction_factor}",
+            "acodec": "aac",  # Specify AAC codec for audio
+            "vcodec": "libx264",  # Specify H.264 codec for video
+            "video_bitrate": f"{int(video_bitrate * reduction_factor ** 2)}k",
+            "audio_bitrate": f"{int(audio_bitrate * reduction_factor ** 2)}k",
+            "preset": "veryslow",  # Compression preset
+            "crf": int(23 / reduction_factor),  # Quality parameter for H.264
         }
     else:
         raise ValueError(f"Video format {video_format} is not supported")
@@ -47,19 +46,18 @@ def _get_params_for_compression(
     return ideal_params
 
 
-def _validate_output_file(
-        input_file: str,
-        output_file: Optional[str]= None
-    ) -> Path:
+def _validate_output_file(input_file: str, output_file: Optional[str] = None) -> Path:
     # If no output file, create a valid one.
     if output_file is None:
         current_dir = Path(input_file).parent
         output_file = current_dir / f"{uuid.uuid1()}.mp4"
     # Else validate the extension and directory
     else:
-        output_file = Path(output_file) if not isinstance(output_file, Path) else output_file
+        output_file = (
+            Path(output_file) if not isinstance(output_file, Path) else output_file
+        )
         # Force the file to have a .mp4 extension
-        output_file = output_file.with_suffix('.mp4')
+        output_file = output_file.with_suffix(".mp4")
         if output_file.exists():
             logger.info("%s already exists. Overriding it.", output_file)
         # Ensure the output directory exists
@@ -70,9 +68,8 @@ def _validate_output_file(
 
 
 def merge_videos_to_single_mp4(
-        file_list: List[str],
-        output_file: Optional[str] = None
-    ) -> Path:
+    file_list: List[str], output_file: Optional[str] = None
+) -> Path:
     """
     Merges multiple videos files into a single file.
 
@@ -85,23 +82,30 @@ def merge_videos_to_single_mp4(
 
     # Create a temporary file list for FFmpeg
     temp_file = f"{uuid.uuid1()}.txt"
-    with open(temp_file, 'w', encoding='utf-8') as f:
+    with open(temp_file, "w", encoding="utf-8") as f:
         for file in file_list:
             f.write(f"file '{os.path.abspath(file)}'\n")
 
     # Command to run FFmpeg for merging files
     command = [
-        'ffmpeg',
-        '-f', 'concat',              # Use concat demuxer
-        '-safe', '0',                # Allow unsafe file paths
-        '-i', temp_file,             # Input list file
-        '-c', 'copy',                # Copy codec (no re-encoding)
-        '-y', validated_output_file  # Override the outputfile
+        "ffmpeg",
+        "-f",
+        "concat",  # Use concat demuxer
+        "-safe",
+        "0",  # Allow unsafe file paths
+        "-i",
+        temp_file,  # Input list file
+        "-c",
+        "copy",  # Copy codec (no re-encoding)
+        "-y",
+        validated_output_file,  # Override the outputfile
     ]
 
     try:
         # Run the FFmpeg command
-        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(
+            command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+        )
         print(f"Merged files saved to {validated_output_file}")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred during merging: {e}")
@@ -114,10 +118,10 @@ def merge_videos_to_single_mp4(
 
 
 def reduce_video_size(
-        input_file: str,
-        reduction_factor: Union[int, float],
-        output_file: Optional[str] = None
-    ) -> Path :
+    input_file: str,
+    reduction_factor: Union[int, float],
+    output_file: Optional[str] = None,
+) -> Path:
     """
     Reduces the size of a video file by adjusting its bitrate and scaling.
 
@@ -129,7 +133,9 @@ def reduce_video_size(
     """
     # Input validation
     if not 0 < reduction_factor <= 1:
-        raise ValueError(f"Reduction_factor must be between 0 and 1. Got {reduction_factor}")
+        raise ValueError(
+            f"Reduction_factor must be between 0 and 1. Got {reduction_factor}"
+        )
 
     # Validate output path
     validated_output_file = _validate_output_file(input_file, output_file)
@@ -137,25 +143,20 @@ def reduce_video_size(
     try:
         input_stream = ffmpeg.input(input_file)
         compression_params = _get_params_for_compression(
-            input_file=input_file,
-            reduction_factor=reduction_factor
+            input_file=input_file, reduction_factor=reduction_factor
         )
         output_stream = ffmpeg.output(
-            input_stream,
-            str(validated_output_file), y=None,
-            **compression_params
+            input_stream, str(validated_output_file), y=None, **compression_params
         )
         ffmpeg.run(output_stream, quiet=True)
         return validated_output_file
     except ffmpeg.Error as e:
-        raise RuntimeError('Error occurred:', e.stderr) from e
+        raise RuntimeError("Error occurred:", e.stderr) from e
 
 
 def reduce_and_merge_videos(
-        input_files: List[str],
-        reduction_factor: float,
-        output_file: Optional[str] = None
-    ) -> Path:
+    input_files: List[str], reduction_factor: float, output_file: Optional[str] = None
+) -> Path:
     """
     The following tasks are performed:
         - Reduce the size of a list of .MOV video files
@@ -183,7 +184,7 @@ def reduce_and_merge_videos(
         # Merge the reduced video files into a single video
         merged_output_file = merge_videos_to_single_mp4(reduced_files, output_file)
     except Exception as exc:
-        raise ValueError(f'Error occurred during merging: {exc}') from exc
+        raise ValueError(f"Error occurred during merging: {exc}") from exc
     finally:
         # Delete the temporary reduced files
         for file in tqdm(reduced_files, desc="Cleaning"):

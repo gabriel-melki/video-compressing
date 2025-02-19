@@ -1,6 +1,6 @@
 # Video Compressing
 
-[![PyPI version](https://badge.fury.io/py/video_compressing.svg)](https://pypi.org/project/video_compressing/)
+[![PyPI version](https://badge.fury.io/py/video_compressing.svg)](https://pypi.org/project/video-compressing/)
 
 A Python library for reducing the size of and merging multiple video files. This package is designed for simplicity and efficiency, leveraging FFmpeg for video compression and manipulation.
 
@@ -12,8 +12,8 @@ A Python library for reducing the size of and merging multiple video files. This
 ## Installation
 Clone the Repository
 ```bash
-git clone https://github.com/Gabriel-melki/video_compressing.git
-cd video_compressing
+git clone https://github.com/gabriel-melki/video-compressing.git
+cd video-compressing
 ```
 
 ### Install Dependencies
@@ -47,7 +47,7 @@ Command-Line Tool
 You can run the VideoCompressing tool directly from the terminal.
 
 ```bash
-python -m src.video_compressing.reduce_video input1.mp4 input2.mp4 -r 0.5 -o output.mp4
+python -m processor.cli input1.mp4 input2.mp4 -r 0.5 -o output.mp4
 ```
 Parameters:
  - input_files: List of input video files (required)
@@ -60,12 +60,12 @@ Parameters:
 Reduce and merge video1.mp4 and video2.mp4 by 50% into output.mp4:
 
 ```bash
-python -m src.video_compressing.reduce_video video1.mp4 video2.mp4 -r 0.5 -o output.mp4
+python -m processor.cli video1.mp4 video2.mp4 -r 0.5 -o output.mp4
 ```
 
 Without an output file:
 ```bash
-python -m src.video_compressing.reduce_video video1.mp4 video2.mp4 -r 0.5
+python -m processor.cli video1.mp4 video2.mp4 -r 0.5
 ```
 
 Using as a Library
